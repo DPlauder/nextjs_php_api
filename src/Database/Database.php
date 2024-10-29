@@ -1,7 +1,8 @@
 <?php
-namespace Dp\Api;
+namespace Dp\Database;
 use PDO;
 use PDOStatement;
+use PDOException;
 
 class Database extends PDO{
     public function __construct(string $dsn, string $username, string $password, array $options = []){
@@ -11,7 +12,6 @@ class Database extends PDO{
         ];
         parent::__construct($dsn, $username, $password, array_replace($default, $options));
     }
-    
         public function sql_execute(string $sql, array $bindings = []): PDOStatement{
             if(! $bindings){
                 return $this->query($sql);
@@ -28,11 +28,11 @@ class Database extends PDO{
             try{
                 $stmt->execute();
             }
-            catch(\PDOException $e){
+            catch(PDOException $e){
                 echo $e->getMessage();
                 exit;
             }
             return $stmt;
         }
 }
-?>
+
