@@ -1,15 +1,16 @@
 <?php
 
-use Error;
-require dirname(__DIR__) . '/src/Helpers/functions.php';
+//use Error;
+//require dirname(__DIR__) . '/src/Helpers/functions.php';
 
 $ressource = $_REQUEST['ressource'] ?? null;
-var_dump($_SERVER['REQUEST_METHOD']);
+var_dump("hellor res" . $ressource);
 
 try{
     return match($ressource){
-        'category' => require 'category.routes.php',
-        default => require '404.routes.php'
+        'category'  => require 'category.routes.php',
+        'projects'   => require 'projects.routes.php',
+        default => ''
     };
 }
 catch(Error $e){

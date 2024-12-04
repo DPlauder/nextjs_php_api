@@ -1,5 +1,5 @@
 <?php
-namespace Dp\Config;
+namespace DP\Config;
 
 class Config{
     const DB_TYPE = "mysql";
