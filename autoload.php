@@ -16,14 +16,9 @@ spl_autoload_register(function ($class) {
             // Replace the namespace prefix with the base directory
             $relativeClass = substr($class, strlen($namespace . '\\'));
             $file = $baseDir . '/' . str_replace('\\', '/', $relativeClass) . '.php';
-
-            // Debug output to check if the file is found
-            echo "Autoloader: Trying to load class {$class} from file {$file}\n";
-
             // Require the file if it exists
             if (file_exists($file)) {
                 require $file;
-                echo "Autoloader: Successfully loaded class {$class} from file {$file}\n";
                 return;
             } else {
                 echo "Autoloader: File {$file} not found for class {$class}\n";

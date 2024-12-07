@@ -9,7 +9,6 @@ try{
     };
 }
 catch(Error $e){
-    var_dump("routes error");
     echo json_encode([
 		'errors' => [
 			'message' => $e->getMessage(),

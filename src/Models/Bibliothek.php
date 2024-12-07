@@ -2,7 +2,7 @@
 namespace DP\Models;
 
 use DP\Database\Database;
-use Src\Models\Project;
+use DP\Models\Project;
 
 class Bibliothek {
     private static Bibliothek $instance;
@@ -24,9 +24,6 @@ class Bibliothek {
     // Static method to get the Singleton instance
     public static function getInstance($dsn = null, $username = null, $password = null): Bibliothek {
         if (!isset(self::$instance)) {
-            if ($dsn === null || $username === null || $password === null) {
-                throw new \Exception("Die Singleton-Instanz wurde noch nicht initialisiert und es fehlen Parameter.");
-            }
             self::$instance = new Bibliothek($dsn, $username, $password);
         }
         return self::$instance;

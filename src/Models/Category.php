@@ -22,12 +22,10 @@ class Category{
         $name = $data['name'];
         $url = $data['url'] ? $data['url'] : null;
 
-        var_dump('hello push');
-
         $sql = "INSERT INTO categories(uuid, name, url)
         VALUES (:uuid, :name, :url)";
         $this->db->sql_execute($sql,[
-        'uuid' => $uuid,
+        //'uuid' => $uuid,
         'name' => $name,
         'url' => $url
         ]);
