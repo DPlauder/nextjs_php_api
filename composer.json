@@ -1,0 +1,17 @@
+{
+    "name": "us504/htdocs",
+    "autoload": {
+        "psr-4": {
+            "Us504\\Htdocs\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "dplauder",
+            "email": "docgit@gmail.com"
+        }
+    ],
+    "require": {
+        "ramsey/uuid": "^4.7"
+    }
+}

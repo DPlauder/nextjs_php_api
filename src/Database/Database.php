@@ -1,5 +1,5 @@
 <?php
-namespace Dp\Database;
+namespace DP\Database;
 use PDO;
 use PDOStatement;
 use PDOException;
@@ -35,4 +35,3 @@ class Database extends PDO{
             return $stmt;
         }
 }
-
