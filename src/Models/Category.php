@@ -1,7 +1,6 @@
 <?php
 namespace DP\Models;
 
-use Ramsey\Uuid\Uuid;
 
 class Category{
     protected $db;
@@ -22,8 +21,8 @@ class Category{
         $name = $data['name'];
         $url = $data['url'] ? $data['url'] : null;
 
-        $sql = "INSERT INTO categories(uuid, name, url)
-        VALUES (:uuid, :name, :url)";
+        $sql = "INSERT INTO categories( name, url)
+        VALUES (:name, :url)";
         $this->db->sql_execute($sql,[
         //'uuid' => $uuid,
         'name' => $name,

@@ -1,70 +1,37 @@
 <?php
 
-// Beispielroute für GET /projekte
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    // Hier könnten wir Projekte aus einer Datenbank oder einer Datei abrufen.
-/*     
-    $projekte = [
-        ['id' => 1, 'name' => 'Projekt 1', 'beschreibung' => 'Beschreibung für Projekt 1'],
-        ['id' => 2, 'name' => 'Projekt 2', 'beschreibung' => 'Beschreibung für Projekt 2']
-    ];
- */
-    echo json_encode($projekte);
-    exit;
-}
+use DP\Models\Bibliothek;
 
-// Beispielroute für POST /projekte
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Wir nehmen an, dass die POST-Daten im JSON-Format gesendet werden.
-    $input = json_decode(file_get_contents('php://input'), true);
+$bibliothek = Bibliothek::getInstance();
 
-    if (isset($input['name']) && isset($input['beschreibung'])) {
-        // Hier könnte das Projekt in einer Datenbank gespeichert werden.
-        $newProject = [
-            'id' => rand(3, 1000), // Zufällige ID für das Beispiel
-            'name' => $input['name'],
-            'beschreibung' => $input['beschreibung']
-        ];
+$project_uuid = $_REQUEST['uuid'] ?? null;
+$project_data = json_decode(file_get_contents('php://input'), true);
 
-        // Wir geben das neu erstellte Projekt zurück
-        echo json_encode(['message' => 'Projekt erfolgreich hinzugefügt', 'projekt' => $newProject]);
-    } else {
-        echo json_encode(['error' => 'Ungültige Eingabedaten']);
+try {
+    ob_start();
+    $http_response = match ($_SERVER['REQUEST_METHOD']) {
+        'GET'       => $bibliothek->getProject()->fetchProjects(),
+        'POST'      => $bibliothek->getProject()->push($project_data),
+        //'DELETE'    => $bibliothek->getProject()->delete($project_uuid),
+        //'PUT'       => $bibliothek->getProject()->update($project_data, $project_uuid),
+        default     => throw new Exception('Method not allowed', 405)
+    };
+    ob_clean();
+    echo json_encode($http_response);
+
+} catch (Exception $e) {
+    if (ob_get_level()) {
+        ob_clean();
     }
-    exit;
-}
 
-// Beispielroute für PUT /projekte/{id}
-if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
-    // URL-Parameter extrahieren
-    $id = $_GET['id'] ?? null;
-    $input = json_decode(file_get_contents('php://input'), true);
-
-    if ($id && isset($input['name']) && isset($input['beschreibung'])) {
-        // Hier könnte das Projekt in der Datenbank aktualisiert werden
-        $updatedProject = [
-            'id' => $id,
-            'name' => $input['name'],
-            'beschreibung' => $input['beschreibung']
-        ];
-
-        echo json_encode(['message' => 'Projekt erfolgreich aktualisiert', 'projekt' => $updatedProject]);
-    } else {
-        echo json_encode(['error' => 'Ungültige Eingabedaten oder Projekt-ID']);
+    echo json_encode([
+        'errors' => [
+            'message' => $e->getMessage(),
+            'code'    => $e->getCode()
+        ]
+    ]);
+} finally {
+    if (ob_get_level()) {
+        ob_end_flush();
     }
-    exit;
 }
-
-// Beispielroute für DELETE /projekte/{id}
-if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
-    $id = $_GET['id'] ?? null;
-
-    if ($id) {
-        // Hier könnte das Projekt aus der Datenbank gelöscht werden.
-        echo json_encode(['message' => "Projekt mit ID $id erfolgreich gelöscht"]);
-    } else {
-        echo json_encode(['error' => 'Projekt-ID nicht angegeben']);
-    }
-    exit;
-}
-
