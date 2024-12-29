@@ -45,19 +45,23 @@ function populateDB(){
             id INT(11) AUTO_INCREMENT PRIMARY KEY,
             uuid CHAR(36) NOT NULL UNIQUE DEFAULT (UUID()),
             name VARCHAR(50) NOT NULL,
-            doku_url VARCHAR(255)
+            url VARCHAR(255)
         )
     ";
 
     $sqlProjectTech = "
-        CREATE TABLE IF NOT EXISTS project_tech (
-            project_id INT(11) NOT NULL,
-            tech_id INT(11) NOT NULL,
-            PRIMARY KEY (project_id, tech_id),
-            FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
-            FOREIGN KEY (tech_id) REFERENCES tech(id) ON DELETE CASCADE
-        )
-    ";
+    CREATE TABLE IF NOT EXISTS project_tech (
+        id INT(11) NOT NULL AUTO_INCREMENT,
+        uuid INT NOT NULL,
+        project_id INT(11) NOT NULL,
+        tech_id INT(11) NOT NULL,
+        PRIMARY KEY (id),
+        UNIQUE KEY (project_id, tech_id),
+        FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
+        FOREIGN KEY (tech_id) REFERENCES tech(id) ON DELETE CASCADE
+    )
+";
+
 
     $stmtUser = $db->sql_execute($sqlUser);
     $stmtUser = $db->sql_execute($sqlCategories);

@@ -9,11 +9,10 @@ $bibliothek = Bibliothek::getInstance();
 $category_uuid = $_REQUEST['uuid'] ?? null;
 $category_data = json_decode(file_get_contents('php://input'), true);
 
-
 try {
     ob_start();
     $http_response = match ($_SERVER['REQUEST_METHOD']) {
-        'GET'       => $bibliothek->getCategory()->fetchCategories(),
+        'GET'       => $bibliothek->getCategory()->fetchCategory($category_uuid),
         'POST'      => $bibliothek->getCategory()->push($category_data),
         'DELETE'    => $bibliothek->getCategory()->delete($category_uuid),
         'PUT'       => $bibliothek->getCategory()->update($category_data, $category_uuid),

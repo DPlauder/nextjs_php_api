@@ -5,7 +5,9 @@ require dirname(__DIR__) . '/src/Helpers/functions.php';
 $ressource = $_REQUEST['ressource'] ?? null;
 try{
     return match($ressource){
-        'category' => require 'category.routes.php',
+		'project'	=> require 'projects.routes.php',
+        'category' 	=> require 'category.routes.php',
+		'tech'		=> require 'tech.routes.php',
     };
 }
 catch(Error $e){

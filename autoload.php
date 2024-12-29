@@ -1,5 +1,7 @@
 <?php
 // autoload.php
+require __DIR__ . '/vendor/autoload.php';
+
 spl_autoload_register(function ($class) {
     // Define an array mapping namespaces to base directories
     $namespaces = [

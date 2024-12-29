@@ -1,6 +1,7 @@
 <?php
 namespace DP\Models;
 
+use Ramsey\Uuid\Uuid;
 
 class Category{
     protected $db;
@@ -8,23 +9,26 @@ class Category{
         $this->db = $db;
     }
     public function fetchCategory($uuid){
-        $sql = "SELECT * FROM categories WHERE uuid = :uuid";
+        if(isset($uuid)){
+            $sql = "SELECT * FROM categories WHERE uuid = :uuid";
         $stmt = $this->db->sql_execute($sql, [':uuid' => $uuid]);
         return $stmt->fetch();
-    }
-    public function fetchCategories(){
-        $sql = "SELECT * FROM categories";
-        $stmt = $this->db->sql_execute($sql);
-        return $stmt->fetchAll();
+        } else{
+            $sql = "SELECT * FROM categories";
+            $stmt = $this->db->sql_execute($sql);
+            return $stmt->fetchAll();
+        }
+        
     }
     public function push(array $data): bool{
+        $uuid = Uuid::uuid4()->toString();
         $name = $data['name'];
         $url = $data['url'] ? $data['url'] : null;
 
-        $sql = "INSERT INTO categories( name, url)
-        VALUES (:name, :url)";
+        $sql = "INSERT INTO categories(uuid, name, url)
+        VALUES (:uuid, :name, :url)";
         $this->db->sql_execute($sql,[
-        //'uuid' => $uuid,
+        'uuid' => $uuid,
         'name' => $name,
         'url' => $url
         ]);

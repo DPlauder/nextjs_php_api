@@ -10,7 +10,6 @@ use DP\Models\Bibliothek;
 // Singleton
 try {
     Bibliothek::getInstance(Config::getDsn(), Config::DB_USER, Config::DB_PASSWORD);
-    //echo "Bibliothek erfolgreich geladen!";
 } catch (Throwable $e) {
     echo "Fehler: " . $e->getMessage();
 }

@@ -3,6 +3,7 @@ namespace DP\Models;
 
 use DP\Database\Database;
 use DP\Models\Project;
+use DP\Models\Tech;
 
 class Bibliothek {
     private static Bibliothek $instance;
@@ -10,6 +11,7 @@ class Bibliothek {
     protected Database $db;
     protected Category $category;
     protected Project $project;
+    protected Tech $tech;
 
     // Private constructor to prevent direct instantiation
     /** 
@@ -44,5 +46,11 @@ class Bibliothek {
             $this->project = new Project($this->db);
         }
         return $this->project;
+    }
+    public function getTech(): Tech{
+        if(!isset($this->tech)){
+            $this->tech = new Tech($this->db);
+        }
+        return $this->tech;
     }
 }
