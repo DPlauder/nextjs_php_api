@@ -11,16 +11,16 @@ class Project{
         $this->db = $db;
     }
     public function fetchProject($uuid){
-        if(isset($uuid)){
+     if(isset($uuid)){
             $sql = "SELECT * FROM projects WHERE uuid = :uuid";
             $stmt = $this->db->sql_execute($sql,[
                 "uuid" => $uuid
             ]);
             return $stmt->fetch();
         } else{
-            $sql = "SELECT * FORM projects";
-        $stmt = $this->db->sql_execute($sql);
-        return $stmt->fetchAll();
+            $sql = "SELECT * FROM projects";
+            $stmt = $this->db->sql_execute($sql);
+            return $stmt->fetchAll();
         }
         
     }
@@ -42,16 +42,9 @@ class Project{
             'category_uuid' => $category_uuid,
         ]);
 
-        // HIER FEHLER
         if(!empty($tech_uuids)){
-            $project_id = intval($this->db->lastInsertId());
-            $sql = "SELECT uuid FROM projects WHERE id = :id";
-            $stmt = $this->db->sql_execute($sql,[
-                'id' => $project_id,
-            ]);
-            $project_uuid = $stmt->fetchColumn();
             $projectTech = new ProjectTech($this->db);
-            $projectTech->push($project_uuid, $tech_uuids);
+            $projectTech->push($uuid, $tech_uuids);
         }
 
         return true;

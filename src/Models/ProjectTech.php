@@ -30,4 +30,11 @@ class ProjectTech{
         };
         return true;
     }
+    public function fetch($project_uuid){
+        $sql = "SELECT tech_uuid FROM project_tech WHERE project_uuid = :project_uuid";
+        $stmt = $this->db->sql_execute($sql,[
+            'project_uuid'  => $project_uuid,
+        ]);
+        return $stmt->fetchAll(PDO::FETCH_COLUMN, 0);
+    }
 }

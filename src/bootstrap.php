@@ -15,4 +15,3 @@ try {
 }
 
 require './Routes/routes.php';
-
